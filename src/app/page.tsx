@@ -6,6 +6,11 @@ const PAYSTACK_KEY = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY || "";
 
 type FlashType = 'success' | 'error' | 'pending';
 
+type PaystackResponse = {
+  reference: string;
+};
+
+
 export default function PaystackDemo() {
   const [form, setForm] = useState({ email: '', fullName: '', amount: '' });
   const [loading, setLoading] = useState(false);
@@ -37,7 +42,7 @@ export default function PaystackDemo() {
           { display_name: "Full Name", variable_name: "full_name", value: form.fullName },
         ],
       },
-      onSuccess: async (response: any) => {
+      onSuccess: async (response: PaystackResponse) => {
         setLoading(true);
         const res = await fetch('/api/verify-paystack', {
           method: 'POST',
